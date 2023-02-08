@@ -6,7 +6,7 @@ import {
 } from '@material-tailwind/react'
 import React, { Fragment, useEffect, useState } from 'react'
 import { addAnswer } from './store/actions'
-import { IAnswer } from './store/answerReducer'
+import { IAnswer } from './store/answerDctReducer'
 import { useAppDispatch, useAppSelector } from './store/store'
 
 type Props = {
@@ -15,10 +15,10 @@ type Props = {
   answer: string
 }
 
-const LetterInput: React.FC<Props> = ({ index, variants, answer }) => {
+const ChooseLetter: React.FC<Props> = ({ index, variants, answer }) => {
   const dispatch = useAppDispatch()
-  const check = useAppSelector((state) => state.check)
-  const answers = useAppSelector((state) => state.answer)
+  const check = useAppSelector((state) => state.checkDct)
+  const answers = useAppSelector((state) => state.answerDct)
   const [letter, setLetter] = useState(' ')
   let [letterInputStyle, setLetterInputStyle] = useState(
     'border-dashed bg-orange-50 border-green-900'
@@ -89,4 +89,4 @@ const LetterInput: React.FC<Props> = ({ index, variants, answer }) => {
   )
 }
 
-export default LetterInput
+export default ChooseLetter

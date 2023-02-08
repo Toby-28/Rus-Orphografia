@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardBody,
   CardFooter,
@@ -7,27 +6,40 @@ import {
 } from '@material-tailwind/react'
 import React, { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
+import RusButton from './components/RusButton'
 
-type Props = {
+interface Links {
+  header: string
+  add: string
+}
+
+interface Props {
   name: string
   quantity: number
   card: string
+  link?: Links
   disabled?: boolean
 }
 
-const Cards: FC<Props> = ({ name, quantity, card, disabled }) => {
+const AppCards: FC<Props> = ({
+  name,
+  quantity,
+  card,
+  disabled,
+  link = { header: '', add: '' },
+}) => {
   const navigate = useNavigate()
 
   const toTest = () => {
-    if (!disabled) {
-      navigate('test', { state: { card } })
-    }
+    if (!disabled) navigate(link.header, { state: { name, card } })
   }
 
   const toAddTest = () => {
-    if (!disabled) {
-      navigate('add-test', { state: { name } })
-    }
+    if (!disabled) navigate(link.add, { state: { name, card } })
+  }
+
+  const toEditTest = () => {
+    if (!disabled) navigate('edit', { state: { name, card } })
   }
 
   return (
@@ -44,11 +56,12 @@ const Cards: FC<Props> = ({ name, quantity, card, disabled }) => {
       <CardBody className="flex items-center justify-center">
         <img src="assets/cards.jpg" className="object-contain h-48 w-80" />
       </CardBody>
-      <CardFooter>
-        <Button onClick={toAddTest}>+</Button>
+      <CardFooter className="flex justify-between">
+        <RusButton text={'Добавит'} doThis={toAddTest} />
+        <RusButton text="Изменит" doThis={toEditTest} />
       </CardFooter>
     </Card>
   )
 }
 
-export default Cards
+export default AppCards

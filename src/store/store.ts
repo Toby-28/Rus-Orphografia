@@ -1,16 +1,16 @@
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import addVariantReducer from "./addVariantReducer";
-import answerReducer from "./answerReducer";
-import checkReducer from "./checkReducer";
-import testReducer from "./testReducer";
+import addDctVariantReducer from "./addDctVariantReducer";
+import answerDctReducer from "./answerDctReducer";
+import checkDctReducer from "./checkDctReducer";
+import dictationReducer from "./dictationReducer";
 
 const reducer = combineReducers({
-  test: testReducer,
-  answer: answerReducer,
-  check: checkReducer,
-  addVariant: addVariantReducer
+  dictation: dictationReducer,
+  answerDct: answerDctReducer,
+  checkDct: checkDctReducer,
+  addDctVariant: addDctVariantReducer
 })
 
 const store = createStore(

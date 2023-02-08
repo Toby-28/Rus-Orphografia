@@ -1,50 +1,62 @@
-import { Button, Input, Textarea } from '@material-tailwind/react'
-import React, { ChangeEvent, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Checkbox, Input, Textarea } from '@material-tailwind/react'
+import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 const AddTest = () => {
-  const navigate = useNavigate()
-  const { state } = useLocation()
-  const [title, setTitle] = useState('')
-  const [text, setText] = useState('')
-
-  const toHome = () => {
-    navigate('/add-variants', { state: { title, text } })
-  }
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value)
-  }
-  const handleTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setText(event.target.value)
-  }
+  const [a, setA] = useState(false)
+  const [b, setB] = useState(false)
+  const [c, setC] = useState(false)
+  const [d, setD] = useState(false)
+  const location = useLocation()
+  const { name, card } = location.state
 
   return (
-    <section className="w-screen h-screen flex flex-col justify-center items-center bg-gray-200">
-      <div className="border-2 p-6 rounded-xl shadow-inner bg-white">
-        <div className="w-96">
-          <p className="text-2xl italic text-teal-900">{state.name}</p>
-          <div className="mt-4">
-            <Input
-              color="teal"
-              label="Заголовок"
-              name="title"
-              onChange={handleTitleChange}
-            />
-          </div>
+    <section className="w-screen h-screen bg-gray-200 flex justify-center items-center flex-col">
+      <div className="bg-white rounded-xl px-10 py-5 shadow-inner hover:shadow-cyan-300">
+        <p className="w-full text-xl p-5 text-teal-900 italic">
+          Добавить новый {name}
+        </p>
+        <Textarea
+          label="Нашите Загадко"
+          cols={80}
+          rows={2}
+          className="text-teal-900 text-lg"
+        />
+        <div className="flex items-center justify-around p-2">
+          <Checkbox color="teal" title="Верно" onClick={() => setA(!a)} />
+          <Input
+            label="Вариант A"
+            required
+            title="Пожалуста заполните!"
+            className="text-teal-900"
+          />
         </div>
-        <div className="mt-4">
-          <Textarea
-            color="teal"
-            label="Текст"
-            cols={50}
-            rows={20}
-            name="text"
-            onChange={handleTextChange}
-          ></Textarea>
+        <div className="flex items-center justify-around p-2">
+          <Checkbox color="teal" title="Верно" onClick={() => setB(!b)} />
+          <Input
+            label="Вариант B"
+            required
+            title="Пожалуста заполните!"
+            className="text-teal-900"
+          />
         </div>
-        <div className="mt-4">
-          <Button onClick={toHome}>Следующий</Button>
+        <div className="flex items-center justify-around p-2">
+          <Checkbox color="teal" title="Верно" onClick={() => setC(!c)} />
+          <Input
+            label="Вариант C"
+            required
+            title="Пожалуста заполните!"
+            className="text-teal-900"
+          />
+        </div>
+        <div className="flex items-center justify-around p-2">
+          <Checkbox color="teal" title="Верно" onClick={() => setD(!d)} />
+          <Input
+            label="Вариант D"
+            required
+            title="Пожалуста заполните!"
+            className="text-teal-900"
+          />
         </div>
       </div>
     </section>

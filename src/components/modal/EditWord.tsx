@@ -7,18 +7,19 @@ import {
   addTemporaryVariant,
   editWordOpen,
   increaseEWI,
-} from './store/actions'
-import { useAppSelector } from './store/store'
+} from '../../store/actions'
+import { useAppSelector } from '../../store/store'
+import RusButton from '../RusButton'
 
 type Props = {
   wordIndex: number
 }
 
 const EditWord: FC<Props> = ({ wordIndex }) => {
-  let text = useAppSelector((state) => state.addVariant.text)
-  const word = useAppSelector((state) => state.addVariant.text[wordIndex])
+  let text = useAppSelector((state) => state.addDctVariant.text)
+  const word = useAppSelector((state) => state.addDctVariant.text[wordIndex])
   const editWordIndex = useAppSelector(
-    (state) => state.addVariant.editWordIndex
+    (state) => state.addDctVariant.editWordIndex
   )
   const [editableWord, setEditableWord] = useState<string>(word)
   const dispatch = useDispatch()
@@ -32,18 +33,20 @@ const EditWord: FC<Props> = ({ wordIndex }) => {
   }
 
   const save = () => {
-    text[wordIndex] = editableWord.replace('$', '$' + editWordIndex)
-    dispatch(addTemporaryText(text))
-    dispatch(addTemporaryVariant([editWordIndex, variantA, variantB]))
-    dispatch(addTemporaryAnswer(truth))
-    dispatch(increaseEWI(editWordIndex + 1))
-    dispatch(editWordOpen(false))
+    if (editableWord.includes('$')) {
+      text[wordIndex] = editableWord.replace('$', '$' + editWordIndex)
+      dispatch(addTemporaryText(text))
+      dispatch(addTemporaryVariant([editWordIndex, variantA, variantB]))
+      dispatch(addTemporaryAnswer(truth))
+      dispatch(increaseEWI(editWordIndex + 1))
+      dispatch(editWordOpen(false))
+    }
   }
 
   return (
     <>
-      <div className="bg-gray-500 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
-        <div className="bg-white px-16 py-14 rounded-md text-center">
+      <section className="bg-gray-500 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
+        <div className="bg-white px-16 py-14 rounded-md text-center flex flex-col items-center">
           <h1 className="text-xl mb-4 font-bold text-gray-600">
             Поставьте знак $ вместо вырезанной буквы
           </h1>
@@ -68,20 +71,15 @@ const EditWord: FC<Props> = ({ wordIndex }) => {
               label="Вариант 2"
             />
           </div>
-          <button
-            className="bg-red-500 px-4 py-2 rounded-md text-md text-white"
-            onClick={() => dispatch(editWordOpen(false))}
-          >
-            Отмена
-          </button>
-          <button
-            className="bg-teal-900 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold"
-            onClick={() => save()}
-          >
-            Да
-          </button>
+          <section className="w-1/2 flex justify-around">
+            <RusButton
+              text="Отмена"
+              doThis={() => dispatch(editWordOpen(false))}
+            />
+            <RusButton text="Да" doThis={save} />
+          </section>
         </div>
-      </div>
+      </section>
     </>
   )
 }

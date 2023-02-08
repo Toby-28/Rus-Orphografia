@@ -1,4 +1,4 @@
-import { EMPTY_TEST_CARD, NEXT_TEST, SET_TEST_CARD } from "./types"
+import { EMPTY_DCT_CARD, NEXT_DCT, SET_DCT_CARD } from "./types"
 
 export interface IData {
   text: string[]
@@ -29,19 +29,20 @@ const initialState: ITestCard = {
   }
 }
 
-const testReducer = (state: ITestCard = initialState, action: IAction) => {
+const dictationReducer = (state: ITestCard = initialState, action: IAction) => {
   switch (action.type) {
-    case SET_TEST_CARD:
+    case SET_DCT_CARD:
       return { ...state, ...action.payload }
 
-    case EMPTY_TEST_CARD:
+    case EMPTY_DCT_CARD:
       return initialState
 
-    case NEXT_TEST:
+    case NEXT_DCT:
       return { ...state, number: action.payload }
+
     default:
       return state
   }
 }
 
-export default testReducer
+export default dictationReducer

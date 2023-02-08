@@ -1,8 +1,8 @@
-import { Button, Card, CardBody, CardHeader } from '@material-tailwind/react'
+import { Card, CardBody, CardHeader } from '@material-tailwind/react'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
-import EditWord from './EditWord'
+import EditWord from './components/modal/EditWord'
 import { useAppSelector } from './store/store'
 import {
   addTemporaryText,
@@ -12,8 +12,10 @@ import {
   removeTAnswer,
   removeTVariant,
 } from './store/actions'
+import RusButton from './components/RusButton'
+import { ITestCard } from './store/dictationReducer'
 
-const AddVariants = () => {
+const AddDictationVariants = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [wordIndexToEdit, setWordIndexToEdit] = useState(0)
@@ -24,12 +26,12 @@ const AddVariants = () => {
   }, [])
 
   const isOpenModal = useAppSelector(
-    (state) => state.addVariant.editVariantOpen
+    (state) => state.addDctVariant.editVariantOpen
   )
-  let title = useAppSelector<string>((state) => state.addVariant.title)
-  let text = useAppSelector<string[]>((state) => state.addVariant.text)
-  let variants = useAppSelector((state) => state.addVariant.variants)
-  let answers = useAppSelector<string[]>((state) => state.addVariant.answers)
+  let title = useAppSelector<string>((state) => state.addDctVariant.title)
+  let text = useAppSelector<string[]>((state) => state.addDctVariant.text)
+  let variants = useAppSelector((state) => state.addDctVariant.variants)
+  let answers = useAppSelector<string[]>((state) => state.addDctVariant.answers)
 
   const editWord = (index: number) => {
     dispatch(editWordOpen(true))
@@ -48,11 +50,11 @@ const AddVariants = () => {
   }
 
   const saveNewTest = () => {
-    let dictation: object[] =
+    let dictation: ITestCard[] =
       JSON.parse(localStorage.getItem('dictation') || '') || []
 
     dictation.unshift({
-      id: new Date().getMilliseconds(),
+      id: Math.trunc(Math.random() * 1000000000),
       title,
       data: {
         text,
@@ -68,7 +70,7 @@ const AddVariants = () => {
 
   return (
     <section className="p-16 bg-gray-200 w-screen h-screen">
-      <Card className="bg-white shadow-inner shadow-light-green-500">
+      <Card className="bg-white shadow-inner hover:shadow-cyan-300">
         <CardHeader className="p-5 italic bg-light-green-50 text-lg font-semibold text-teal-900 w-max">
           {title}
         </CardHeader>
@@ -98,12 +100,10 @@ const AddVariants = () => {
         {isOpenModal ? <EditWord wordIndex={wordIndexToEdit} /> : <></>}
       </Card>
       <div className="mt-4 mx-10 flex justify-end">
-        <Button color="indigo" onClick={saveNewTest}>
-          Добавит Новый Тест
-        </Button>
+        <RusButton text="Добавит Новый Тест" doThis={saveNewTest} />
       </div>
     </section>
   )
 }
 
-export default AddVariants
+export default AddDictationVariants
